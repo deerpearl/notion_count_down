@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="countdown-container">
-        <h1 id="countdown-title">Countdown Timer</h1>
-        <div id="timer">
-            <span id="days">00</span> days 
-            <span id="hours">00</span> hours 
-            <span id="minutes">00</span> minutes 
-            <span id="seconds">00</span> seconds
-        </div>
+  <div class="container">
+    <h1>Countdown Timer</h1>
+    
+    <!-- Input Fields for the Timer -->
+    <div class="input-fields">
+      <label for="hours">Hours:</label>
+      <input type="number" id="hours" min="0" max="99" placeholder="0">
+      
+      <label for="minutes">Minutes:</label>
+      <input type="number" id="minutes" min="0" max="59" placeholder="0">
+      
+      <label for="seconds">Seconds:</label>
+      <input type="number" id="seconds" min="0" max="59" placeholder="0">
     </div>
+    
+    <!-- Display Countdown -->
+    <div id="countdown-display">00:00:00</div>
 
-    <script src="app.js"></script>
+    <!-- Buttons -->
+    <button id="start-button">Start Countdown</button>
+    <button id="reset-button">Reset</button>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Time's up!</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

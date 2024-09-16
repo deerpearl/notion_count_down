@@ -1,33 +1,57 @@
-// app.js
-const countdownContainer = document.getElementById('countdown-container');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
+// script.js
+let countdownInterval;
 
-// Set a future date for countdown (example: New Year's Eve)
-const countdownDate = new Date('Dec 31, 2024 23:59:59').getTime();
+document.getElementById('start-button').addEventListener('click', startCountdown);
+document.getElementById('reset-button').addEventListener('click', resetCountdown);
 
-// Update the countdown every second
-const interval = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = countdownDate - now;
+const popupModal = document.getElementById('popup-modal');
+const closeButton = document.querySelector('.close');
 
-    // Time calculations for days, hours, minutes, and seconds
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000)) / 1000);
+closeButton.addEventListener('click', () => {
+  popupModal.style.display = 'none';
+});
 
-    // Output the results
-    daysEl.innerHTML = days;
-    hoursEl.innerHTML = hours;
-    minutesEl.innerHTML = minutes;
-    secondsEl.innerHTML = seconds;
+function startCountdown() {
+  const hoursInput = document.getElementById('hours').value || 0;
+  const minutesInput = document.getElementById('minutes').value || 0;
+  const secondsInput = document.getElementById('seconds').value || 0;
 
-    // If the countdown is finished, display text
-    if (distance < 0) {
-        clearInterval(interval);
-        countdownContainer.innerHTML = '<h1>Countdown Ended</h1>';
+  let totalSeconds = parseInt(hoursInput) * 3600 + parseInt(minutesInput) * 60 + parseInt(secondsInput);
+
+  if (totalSeconds <= 0) {
+    alert("Please enter a valid countdown time.");
+    return;
+  }
+
+  countdownInterval = setInterval(() => {
+    if (totalSeconds <= 0) {
+      clearInterval(countdownInterval);
+      showPopup();
+      return;
     }
-}, 1000);
+
+    totalSeconds--;
+    displayTime(totalSeconds);
+  }, 1000);
+}
+
+function resetCountdown() {
+  clearInterval(countdownInterval);
+  document.getElementById('countdown-display').textContent = "00:00:00";
+  document.getElementById('hours').value = "";
+  document.getElementById('minutes').value = "";
+  document.getElementById('seconds').value = "";
+}
+
+function displayTime(totalSeconds) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  document.getElementById('countdown-display').textContent =
+    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function showPopup() {
+  popupModal.style.display = 'flex';
+}
